@@ -8,11 +8,12 @@ struct PhanSo
     int tu, mau;
 };
 
+// Hàm kiểm tra và chuẩn hóa phân số, đưa dấu trừ về tử số
 PhanSo Kiem_Tra_Phan_So_Am(int a, int b)
 {
     PhanSo phanSo;
 
-    if (a > 0 and b < 0)
+    if (b < 0)
     {
         b = abs(b);
         a = -a;
@@ -22,93 +23,98 @@ PhanSo Kiem_Tra_Phan_So_Am(int a, int b)
     return phanSo;
 }
 
-void rut_gon(int &tu, int &mau)
+// Hàm rút gọn phân số và in ra kết quả
+void rut_gon(int tu, int mau)
 {
-    int UCLN = __gcd(tu,mau);
-    int a = tu/UCLN; int b = mau/UCLN;
-    if (b == 1)
+    if (mau == 0)
     {
-        cout << tu/UCLN << endl;
+        cout << "Invalid" << endl;
         return;
     }
+
+    int UCLN = __gcd(abs(tu), abs(mau));
+    tu /= UCLN;
+    mau /= UCLN;
+
+    if (mau == 1)
+    {
+        cout << tu << endl;
+    }
+    else if (tu == 0)
+    {
+        cout << "0" << endl;
+    }
     else
-        cout << tu/UCLN << '/' << mau/UCLN << endl;    
+    {
+        // Đảm bảo không có dấu trừ không cần thiết
+        if (mau < 0)
+        {
+            mau = -mau;
+            tu = -tu;
+        }
+        cout << tu << '/' << mau << endl;
+    }
 }
 
+// Hàm tính tổng của hai phân số
 void Tong_2_Phan_So(PhanSo P1, PhanSo P2)
 {
     cout << "Tong 2 phan so la: ";
-    if (P1.mau == P2.mau)
-    {
-        //Tổng của tử, mẫu giữ nguyên
-        int a = P1.tu + P2.tu;
-        int b = P1.mau;
-        rut_gon(a,b);
-    }
-    if (P1.mau != P2.mau)
-    {
-        int a = (P1.tu * P2.mau) + (P1.mau * P2.tu);
-        int b = (P1.mau * P2.mau);
-        rut_gon(a,b);
-    }
+    int a = P1.tu * P2.mau + P2.tu * P1.mau;
+    int b = P1.mau * P2.mau;
+    rut_gon(a, b);
 }
 
+// Hàm tính hiệu của hai phân số
 void Hieu_2_Phan_So(PhanSo P1, PhanSo P2)
 {
-    cout << endl;
     cout << "Hieu 2 phan so la: ";
-    if (P1.mau == P2.mau)
-    {
-        //Hiệu của tử, mẫu giữ nguyên
-        int a = P1.tu - P2.tu;
-        int b = P1.mau;
-        rut_gon(a,b);
-    }
-    if (P1.mau != P2.mau)
-    {
-        int a = (P1.tu * P2.mau) - (P1.mau * P2.tu);
-        int b = (P1.mau * P2.mau);
-        rut_gon(a,b);
-    }
+    int a = P1.tu * P2.mau - P2.tu * P1.mau;
+    int b = P1.mau * P2.mau;
+    rut_gon(a, b);
 }
 
+// Hàm tính tích của hai phân số
 void Tich_2_Phan_So(PhanSo P1, PhanSo P2)
 {
-    cout << endl << "Tich 2 Phan So la: ";
+    cout << "Tich 2 Phan So la: ";
     int a = P1.tu * P2.tu;
     int b = P1.mau * P2.mau;
-    rut_gon(a,b);
+    rut_gon(a, b);
 }
 
+// Hàm tính thương của hai phân số
 void Thuong_2_Phan_So(PhanSo P1, PhanSo P2)
 {
-    cout << endl << "Thuong 2 Phan So la: ";
+    cout << "Thuong 2 Phan So la: ";
     int a = P1.tu * P2.mau;
     int b = P1.mau * P2.tu;
-    rut_gon(a,b);
+    rut_gon(a, b);
 }
 
-
-
-int main(int argc, char const *argv[])
+int main()
 {
     PhanSo P1, P2;
+    cout << "Nhap phan so thu 1 (tu mau): ";
     cin >> P1.tu >> P1.mau;
     cout << "Phan So Thu 1: " << P1.tu << '/' << P1.mau << endl;
+    cout << "Nhap phan so thu 2 (tu mau): ";
     cin >> P2.tu >> P2.mau;
     cout << "Phan So Thu 2: " << P2.tu << '/' << P2.mau << endl;
 
     if (P1.mau == 0 || P2.mau == 0)
     {
         cout << "Invalid" << endl;
-        return 2;
+        return 1;
     }
+
     P1 = Kiem_Tra_Phan_So_Am(P1.tu, P1.mau);
     P2 = Kiem_Tra_Phan_So_Am(P2.tu, P2.mau);
-    Tong_2_Phan_So(P1,P2);
-    Hieu_2_Phan_So(P1,P2);
-    Tich_2_Phan_So(P1,P2);
-    Thuong_2_Phan_So(P1,P2);
+    
+    Tong_2_Phan_So(P1, P2);
+    Hieu_2_Phan_So(P1, P2);
+    Tich_2_Phan_So(P1, P2);
+    Thuong_2_Phan_So(P1, P2);
     
     return 0;
 }

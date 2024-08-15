@@ -7,8 +7,7 @@ int main() {
     cout << "Nhap so dinh cua da giac: ";
     cin >> n;
     
-    DaGiac dg(n);
-    
+    DaGiac dg(n);   
     if (dg.laDaGiac()) {
         cout << "Day la mot da giac." << endl;
     } else {
@@ -16,10 +15,10 @@ int main() {
         return 0;
     }
     
-    int k;
+    int k, h;
     cout << "NHAP SO TINH TIEN DA GIAC: ";
-    cin >> k;
-    dg.TinhTien(k, k);
+    cin >> k >> h;
+    dg.TinhTien(k, h);
     cout << "Da giac sau khi tinh tien: ";
     dg.XuatDaGiac();
     
